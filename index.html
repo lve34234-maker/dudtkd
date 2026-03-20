@@ -123,8 +123,17 @@ body{font-family:'Nanum Myeongjo',serif;background:var(--bg);height:100%}
 .ptm{font-family:'Do Hyeon',sans-serif;font-size:.56rem;color:rgba(60,25,5,.35)}
 
 /* 영상 URL 입력 (관리자) */
-.vvur{display:none;align-items:center;gap:7px;flex-wrap:wrap;margin-top:4px}
+.vvur{display:none;flex-direction:column;gap:5px;margin-top:6px}
 .admin-active .vvur{display:flex}
+.vvur-tabs{display:flex;gap:4px;margin-bottom:2px}
+.vvur-tab{font-family:'Do Hyeon',sans-serif;font-size:.6rem;padding:3px 10px;border:1px solid rgba(60,25,5,.25);background:transparent;color:rgba(60,25,5,.42);cursor:pointer;border-radius:2px;transition:all .2s}
+.vvur-tab.active{background:rgba(60,25,5,.22);color:rgba(60,25,5,.72);border-color:rgba(60,25,5,.45)}
+.vvur-file,.vvur-url{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.vvur-file.hidden,.vvur-url.hidden{display:none!important}
+.bvu{display:flex;align-items:center;gap:4px;background:rgba(60,25,5,.11);color:rgba(60,25,5,.58);border:1px dashed rgba(60,25,5,.26);font-family:'Do Hyeon',sans-serif;font-size:.63rem;letter-spacing:.09em;padding:4px 10px;cursor:pointer;border-radius:3px;transition:background .2s}
+.bvu:hover{background:rgba(60,25,5,.2)}
+.vin{display:none}
+.vfn{font-family:'Do Hyeon',sans-serif;font-size:.6rem;color:rgba(60,25,5,.42);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vurl-input{flex:1;min-width:0;border:1px dashed rgba(60,25,5,.26);background:rgba(60,25,5,.07);border-radius:3px;font-family:'Do Hyeon',sans-serif;font-size:.62rem;color:rgba(60,25,5,.7);padding:4px 8px;outline:none;transition:border-color .2s}
 .vurl-input:focus{border-color:rgba(60,25,5,.5)}
 .vurl-input::placeholder{color:rgba(60,25,5,.3)}
@@ -316,7 +325,7 @@ body.is-mobile .abg{font-size:.62rem;padding:6px 16px}
 
 <script>
 // ★ Railway URL 여기 넣어줘 ★
-const API = 'https://dudtkd-server-production.up.railway.app';
+const API = 'YOUR_RAILWAY_URL';
 
 // ── 모바일 감지 ──
 const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
@@ -482,12 +491,25 @@ function render(){
                 </div>
               </div>
 
-              <!-- 영상 URL 입력 (관리자) -->
-              <div class="vvur">
-                <input class="vurl-input" type="text" id="vurl-${i}"
-                  placeholder="YouTube URL 또는 영상 링크 붙여넣기"
-                  value="${esc(l.video||'')}">
-                <button class="bvsave" id="bvsave-${i}">저장</button>
+              <!-- 영상 추가 (관리자) - 파일 or URL -->
+              <div class="vvur" id="vvur-${i}">
+                <div class="vvur-tabs">
+                  <button class="vvur-tab active" id="vtab-file-${i}">📁 파일 업로드</button>
+                  <button class="vvur-tab" id="vtab-url-${i}">🔗 URL 링크</button>
+                </div>
+                <!-- 파일 모드 -->
+                <div class="vvur-file" id="vfile-${i}">
+                  <button class="bvu" id="bvu-${i}">🎬 영상파일 선택</button>
+                  <span class="vfn" id="vfn-${i}">${hasVideo&&!l.video.startsWith('http')?'✓ 업로드됨':''}</span>
+                  <input class="vin" type="file" accept="video/*,.mp4,.mov,.webm,.avi" id="viIn-${i}">
+                </div>
+                <!-- URL 모드 -->
+                <div class="vvur-url hidden" id="vurl-wrap-${i}">
+                  <input class="vurl-input" type="text" id="vurl-${i}"
+                    placeholder="YouTube / 영상 링크 붙여넣기"
+                    value="${esc(l.video&&l.video.startsWith('http')?l.video:'')}">
+                  <button class="bvsave" id="bvsave-${i}">저장</button>
+                </div>
                 <button class="bvvd" id="bvvd-${i}" style="display:${hasVideo?'inline-block':'none'}">🗑 삭제</button>
               </div>
             </div>
@@ -625,16 +647,59 @@ function wireCard(page, i){
     await apiSave(letters);
   });
 
-  // ── 영상 URL ──
+  // ── 영상 (파일 + URL 둘 다) ──
+  const vh        = page.querySelector(`#vh-${i}`);
+  const bvvd      = page.querySelector(`#bvvd-${i}`);
+  const tabFile   = page.querySelector(`#vtab-file-${i}`);
+  const tabUrl    = page.querySelector(`#vtab-url-${i}`);
+  const vfileDiv  = page.querySelector(`#vfile-${i}`);
+  const vurlDiv   = page.querySelector(`#vurl-wrap-${i}`);
+  const bvu       = page.querySelector(`#bvu-${i}`);
+  const viIn      = page.querySelector(`#viIn-${i}`);
+  const vfn       = page.querySelector(`#vfn-${i}`);
   const vurlInput = page.querySelector(`#vurl-${i}`);
   const bvsave    = page.querySelector(`#bvsave-${i}`);
-  const bvvd      = page.querySelector(`#bvvd-${i}`);
-  const vh        = page.querySelector(`#vh-${i}`);
 
-  // URL 입력은 자체 stopPropagation
+  // 탭 전환
+  tabFile.addEventListener('click', e => {
+    e.stopPropagation();
+    tabFile.classList.add('active'); tabUrl.classList.remove('active');
+    vfileDiv.classList.remove('hidden'); vurlDiv.classList.add('hidden');
+  });
+  tabUrl.addEventListener('click', e => {
+    e.stopPropagation();
+    tabUrl.classList.add('active'); tabFile.classList.remove('active');
+    vurlDiv.classList.remove('hidden'); vfileDiv.classList.add('hidden');
+  });
+
+  // 현재 저장된 값이 URL이면 URL 탭 활성화
+  if(letters[i].video && letters[i].video.startsWith('http')){
+    tabUrl.click();
+  }
+
+  // 파일 업로드
+  bvu.addEventListener('click', e => { e.stopPropagation(); viIn.click(); });
+  viIn.addEventListener('change', e => {
+    const f = e.target.files[0]; if(!f) return;
+    if(f.size > 200*1024*1024){ showToast('200MB 이하 파일만 가능해요!'); viIn.value=''; return; }
+    showToast('영상 읽는 중... (파일 크기에 따라 오래 걸릴 수 있어요)');
+    const reader = new FileReader();
+    reader.onload = async ev => {
+      letters[i].video = ev.target.result;
+      vfn.textContent = '✓ ' + f.name;
+      bvvd.style.display = 'inline-block';
+      vh.style.display = 'flex';
+      await apiSave(letters);
+      showToast('영상 저장 완료 ✓');
+    };
+    reader.onerror = () => showToast('파일 읽기 실패');
+    reader.readAsDataURL(f);
+    viIn.value = '';
+  });
+
+  // URL 저장
   vurlInput.addEventListener('click', e => e.stopPropagation());
   vurlInput.addEventListener('keydown', e => { if(e.key==='Enter') bvsave.click(); e.stopPropagation(); });
-
   bvsave.addEventListener('click', async e => {
     e.stopPropagation();
     const url = vurlInput.value.trim();
@@ -645,12 +710,12 @@ function wireCard(page, i){
     showToast(url ? '영상 URL 저장됨 ✓' : 'URL 삭제됨');
   });
 
+  // 삭제
   bvvd.addEventListener('click', async e => {
     e.stopPropagation();
     letters[i].video = '';
-    vurlInput.value = '';
-    vh.style.display = 'none';
-    bvvd.style.display = 'none';
+    vurlInput.value = ''; vfn.textContent = '';
+    vh.style.display = 'none'; bvvd.style.display = 'none';
     await apiSave(letters);
   });
 

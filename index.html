@@ -54,25 +54,25 @@ body{font-family:'Nanum Myeongjo',serif;background:var(--ink);height:100%}
 @keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
 /* ── LETTER PAGE ── */
-.lpage{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.lpage{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:visible}
 
 /* 고급 배경 */
-.lpage-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,#1a1208 0%,#0d0a06 50%,#060504 100%)}
+.lpage-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,#1a1208 0%,#0d0a06 50%,#060504 100%);overflow:hidden}
 .lpage-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(201,168,76,.05) 0%,transparent 55%)}
 
 /* 좌측 떠다니는 사진들 */
-.float-photos{position:absolute;left:0;top:0;width:300px;height:100%;pointer-events:none;overflow:visible;z-index:1}
+.float-photos{position:absolute;left:0;top:0;bottom:0;width:280px;pointer-events:none;z-index:15;overflow:visible}
 body.mob .float-photos{display:none}
 .fphoto{position:absolute;border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.2),inset 0 0 0 1px rgba(255,255,255,.04);opacity:0;animation:fphotoFloat var(--fdur,12s) var(--fdelay,0s) ease-in-out infinite;will-change:transform,opacity}
 .fphoto img{width:100%;height:100%;object-fit:cover;display:block}
 .fphoto-placeholder{width:100%;height:100%;background:rgba(201,168,76,.06);display:flex;align-items:center;justify-content:center;color:rgba(201,168,76,.2);font-size:1.5rem}
 @keyframes fphotoFloat{
-  0%{opacity:0;transform:translateY(10px) scale(.96) rotate(-1deg)}
-  8%{opacity:.8}
-  45%{opacity:.7;transform:translateY(-20px) scale(1) rotate(.5deg)}
-  55%{opacity:.7;transform:translateY(-25px) scale(1.01) rotate(-.5deg)}
-  92%{opacity:.6}
-  100%{opacity:0;transform:translateY(-60px) scale(.97) rotate(1deg)}
+  0%{opacity:0;transform:translateY(8px)}
+  15%{opacity:.82}
+  40%{opacity:.75;transform:translateY(-15px)}
+  60%{opacity:.7;transform:translateY(-20px)}
+  85%{opacity:.55}
+  100%{opacity:0;transform:translateY(-50px)}
 }
 
 /* 우측 장식 */
@@ -108,7 +108,7 @@ body.mob .side-deco{display:none}
 .front,.back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:4px;overflow:hidden}
 .front{display:flex;flex-direction:column;padding:52px 28px 20px;box-shadow:8px 8px 0 rgba(0,0,0,.3),0 0 0 1px rgba(201,168,76,.1),-2px -2px 14px rgba(0,0,0,.2)}
 .front::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-1.5deg);width:88px;height:28px;background:var(--tape);border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
-.holes{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:flex;gap:13px;z-index:11}
+.holes{display:none}
 .holes span{width:9px;height:9px;border-radius:50%;background:rgba(0,0,0,.35);box-shadow:inset 0 1px 3px rgba(0,0,0,.4)}
 .lines{position:absolute;inset:0;pointer-events:none}
 .lines::after{content:'';position:absolute;top:58px;left:0;right:0;bottom:0;background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,rgba(0,0,0,.1) 32px)}
@@ -237,7 +237,7 @@ body.mob .pf{border-radius:6px 6px 0 0;box-shadow:none;border-bottom:2px solid r
 body.mob .ns{width:100%;height:62%;margin-left:0;flex-shrink:0}
 body.mob .front{border-radius:0 0 6px 6px;padding:36px 20px 16px}
 body.mob .front::before{top:-10px;width:70px;height:24px}
-body.mob .holes{top:10px;gap:10px}
+
 body.mob #ePanel{width:100%;top:auto;bottom:0;height:82vh;transform:translateY(100%);border-radius:16px 16px 0 0}
 body.mob #ePanel.on{transform:translateY(0)}
 

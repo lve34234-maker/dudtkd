@@ -13,7 +13,7 @@
   --acc:#7c6ef5;--p1:#12101a;--p2:#1e1b2e;--p3:#2a273e;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-snap-type:y mandatory;overflow-y:scroll;height:100%}
+html{overflow-y:scroll;height:100%}
 body{font-family:'Nanum Myeongjo',serif;background:var(--ink);height:100%}
 
 /* ── LOADING ── */
@@ -26,7 +26,7 @@ body{font-family:'Nanum Myeongjo',serif;background:var(--ink);height:100%}
 @keyframes dp{0%,100%{opacity:.3}50%{opacity:1}}
 
 /* ── HERO ── */
-.hero{height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,#1a1006 0%,#080604 60%,#020202 100%)}
 .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(201,168,76,.06) 0%,transparent 60%);pointer-events:none}
 /* 골드 그리드 라인 */
@@ -54,7 +54,7 @@ body{font-family:'Nanum Myeongjo',serif;background:var(--ink);height:100%}
 @keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
 /* ── LETTER PAGE ── */
-.lpage{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.lpage{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 
 /* 고급 배경 */
 .lpage-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,#1a1208 0%,#0d0a06 50%,#060504 100%)}
@@ -144,7 +144,7 @@ body.mob .side-deco{display:none}
 .admin-active .front:hover{outline-color:rgba(124,110,245,.6)}
 
 /* ── ADD / FOOTER PAGE ── */
-.apage{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.apage{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .apage-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,#14110a,#070604)}
 .nadmin{display:flex;flex-direction:column;align-items:center;gap:10px;color:rgba(201,168,76,.2);font-family:'Do Hyeon',sans-serif;font-size:.82rem;letter-spacing:.2em;z-index:2}
 .admin-active .nadmin{display:none}
@@ -152,7 +152,7 @@ body.mob .side-deco{display:none}
 .admin-active .aapi{display:flex}
 .addBtn{padding:16px 44px;background:transparent;border:1px solid rgba(201,168,76,.3);color:rgba(201,168,76,.5);font-family:'Do Hyeon',sans-serif;font-size:.88rem;letter-spacing:.25em;cursor:pointer;border-radius:2px;transition:all .2s;position:relative}
 .addBtn:hover{border-color:var(--gold);color:var(--gold);box-shadow:0 0 20px rgba(201,168,76,.1)}
-.fpage{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-direction:column;gap:14px}
+.fpage{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-direction:column;gap:14px}
 .fpage-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,#120e08,#050403)}
 .ftitle{font-family:'Nanum Pen Script',cursive;font-size:clamp(1.8rem,5vw,3.4rem);color:var(--gold);opacity:.75;z-index:2}
 .fsub{font-family:'Do Hyeon',sans-serif;font-size:.75rem;letter-spacing:.3em;color:rgba(201,168,76,.25);z-index:2}
@@ -413,7 +413,7 @@ body.mob #ePanel.on{transform:translateY(0)}
 <div class="mo" id="moAdd"><div class="mbox"><div class="mt">제자 추가</div><div class="ms">이름을 입력하세요</div><input class="mi" type="text" id="addIn" placeholder="이름" maxlength="20"><button class="msub" id="addOk">추가하기</button><div class="merr" id="addErr"></div></div></div>
 
 <script>
-const API = 'https://dudtkd-server-production.up.railway.app';
+const API = 'YOUR_RAILWAY_URL';
 const PW  = 'love';
 const isMob = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||window.innerWidth<768;
 if(isMob) document.body.classList.add('mob');

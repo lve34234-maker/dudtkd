@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>조윤수 사범님께</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Do+Hyeon&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#7d7d85;--gold:#c9a84c;--deep-red:#8b1a1a;
+  --ink:#1a1209;--parchment:#f5ead8;--cream:#fdf6e8;
+  --note:#d4a96a;--note-dark:#b8855a;--tape:rgba(210,180,130,.65);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-snap-type:y mandatory;overflow-y:scroll;height:100%}
+body{font-family:'Nanum Myeongjo',serif;background:var(--bg);height:100%}
+
+/* ── LOADING ── */
+#ls{position:fixed;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:18px;transition:opacity .6s}
+#ls.hide{opacity:0;pointer-events:none}
+.lt{font-size:1.6rem;font-weight:800;color:var(--parchment);font-family:'Nanum Myeongjo',serif}
+.ld{display:flex;gap:8px}
+.ld span{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:.3;animation:dp 1.2s ease-in-out infinite}
+.ld span:nth-child(2){animation-delay:.2s}.ld span:nth-child(3){animation-delay:.4s}
+@keyframes dp{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ══ HERO ══ */
+.hero{height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#2a1a06,#0d0903)}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(201,168,76,.06) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(201,168,76,.06) 60px)}
+.hi{text-align:center;z-index:2;animation:fu 1.4s ease both;padding:0 24px}
+@keyframes fu{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hb{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);font-size:.78rem;letter-spacing:.3em;padding:6px 18px;margin-bottom:28px;font-family:'Do Hyeon',sans-serif;opacity:.85}
+.ht{font-size:clamp(2.8rem,9vw,7rem);font-weight:800;color:var(--parchment);line-height:1.05;text-shadow:0 4px 40px rgba(201,168,76,.25);margin-bottom:12px}
+.hs{font-family:'Nanum Pen Script',cursive;font-size:clamp(1.2rem,4vw,2.2rem);color:var(--gold);letter-spacing:.05em;margin-bottom:40px;opacity:.9}
+.sh{display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(201,168,76,.5);font-size:.78rem;letter-spacing:.2em;animation:pulse 2.4s ease-in-out infinite;font-family:'Do Hyeon',sans-serif}
+.sh svg{width:20px;opacity:.5;animation:bonce 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:.9}}
+@keyframes bonce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.dc{position:absolute;border-radius:50%;pointer-events:none}
+.dc.a{width:500px;height:500px;border:1px solid rgba(201,168,76,.08);top:50%;left:50%;transform:translate(-50%,-50%);animation:spn 60s linear infinite}
+.dc.b{width:320px;height:320px;border:1px solid rgba(201,168,76,.13);top:50%;left:50%;transform:translate(-50%,-50%);animation:spn 40s linear infinite reverse}
+@keyframes spn{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ══ LETTER PAGE ══ */
+.lpage{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--bg)}
+.page-no{position:absolute;top:14px;left:50%;transform:translateX(-50%);font-family:'Do Hyeon',sans-serif;font-size:.7rem;color:rgba(255,255,255,.2);letter-spacing:.3em;z-index:5}
+
+/* 꽃 배경 */
+.flower-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(260px,38vw);opacity:.2;pointer-events:none;user-select:none}
+
+/* 장식 */
+.deco-letter{position:absolute;top:14px;left:14px;width:52px;opacity:.3;transform:rotate(-8deg);pointer-events:none}
+.deco-env{position:absolute;bottom:14px;left:10px;width:62px;opacity:.38;pointer-events:none}
+
+/* ─── 데스크탑 카드 ─── */
+.cw{display:flex;align-items:center;justify-content:center;width:min(820px,90vw);height:min(500px,78vh);position:relative;z-index:2;gap:0}
+
+/* 사진 */
+.ps{width:44%;height:100%;position:relative;flex-shrink:0;z-index:3}
+.pf{width:100%;height:100%;background:#c94a42;border-radius:8px;overflow:hidden;position:relative;box-shadow:-8px 8px 0 rgba(0,0,0,.28),6px -4px 24px rgba(0,0,0,.35)}
+.pf img{width:100%;height:100%;object-fit:cover;display:none}
+.pf img.hp{display:block}
+.ppi{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.pf.hp .ppi{display:none}
+.ppi svg{width:44px;opacity:.35;color:rgba(255,255,255,.8)}
+.ppi span{font-family:'Do Hyeon',sans-serif;font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.18em}
+.bpu{display:none;position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(255,255,255,.25);font-family:'Do Hyeon',sans-serif;font-size:.65rem;letter-spacing:.1em;padding:4px 11px;cursor:pointer;border-radius:3px;backdrop-filter:blur(4px);z-index:5;transition:background .2s}
+.bpu:hover{background:rgba(139,26,26,.8)}
+.admin-active .bpu{display:block}
+.bpd{display:none;position:absolute;top:8px;right:8px;background:rgba(139,26,26,.8);color:#fff;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;line-height:26px;text-align:center;z-index:5}
+.admin-active .pf.hp .bpd{display:block}
+.pi{display:none}
+
+/* 노트 */
+.ns{width:54%;height:106%;position:relative;flex-shrink:0;margin-left:-22px;z-index:2}
+.np{width:100%;height:100%;background:var(--note);border-radius:4px;position:relative;box-shadow:8px 8px 0 rgba(0,0,0,.22),-2px -2px 14px rgba(0,0,0,.12);overflow:hidden;display:flex;flex-direction:column;padding:52px 28px 20px}
+.np::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-1.5deg);width:88px;height:28px;background:var(--tape);border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.12);z-index:10}
+.nh{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:flex;gap:13px;z-index:11}
+.nh span{width:9px;height:9px;border-radius:50%;background:var(--bg);box-shadow:inset 0 1px 3px rgba(0,0,0,.35)}
+.nl{position:absolute;inset:0;pointer-events:none}
+.nl::after{content:'';position:absolute;top:58px;left:0;right:0;bottom:0;background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,var(--note-dark) 32px);opacity:.28}
+
+/* ── 이름 줄 ── */
+.nfr{display:flex;align-items:center;gap:8px;margin-bottom:8px;position:relative;z-index:2}
+.nf{font-family:'Do Hyeon',sans-serif;font-size:.8rem;letter-spacing:.2em;color:rgba(60,25,5,.55)}
+.brn{display:none;background:none;border:1px solid rgba(60,25,5,.25);color:rgba(60,25,5,.5);font-family:'Do Hyeon',sans-serif;font-size:.58rem;letter-spacing:.1em;padding:2px 7px;cursor:pointer;border-radius:2px;transition:background .2s}
+.brn:hover{background:rgba(60,25,5,.12)}
+.admin-active .brn{display:inline-block}
+
+/* ── 편지 내용 ── */
+.nb{font-family:'Nanum Pen Script',cursive;font-size:clamp(1rem,1.7vw,1.38rem);color:#3a1f05;line-height:2;flex:1;overflow-y:auto;position:relative;z-index:2;word-break:keep-all;white-space:pre-wrap;scrollbar-width:none}
+.nb::-webkit-scrollbar{display:none}
+.nb.empty::before{content:'아직 편지가 없어요...';color:rgba(60,25,5,.3);font-size:.95rem;font-family:'Nanum Myeongjo',serif}
+
+/* ── 영상 힌트 (일반) ── */
+.video-hint{display:none;position:relative;z-index:2;margin-top:8px;align-items:center;gap:8px;font-family:'Do Hyeon',sans-serif;font-size:.68rem;color:rgba(60,25,5,.5);letter-spacing:.1em;cursor:pointer;transition:color .2s;user-select:none}
+.video-hint:hover{color:rgba(60,25,5,.75)}
+.video-hint .pi2{width:24px;height:24px;border-radius:50%;background:rgba(60,25,5,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.video-hint:hover .pi2{background:rgba(60,25,5,.38)}
+.video-hint .pi2 svg{width:10px;fill:rgba(255,240,200,.9);margin-left:1px}
+
+/* ── 음성/영상 관리 ── */
+.nv{margin-top:7px;position:relative;z-index:2}
+.vur{display:none;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}
+.admin-active .vur{display:flex}
+.bau{display:flex;align-items:center;gap:4px;background:rgba(60,25,5,.11);color:rgba(60,25,5,.58);border:1px dashed rgba(60,25,5,.26);font-family:'Do Hyeon',sans-serif;font-size:.63rem;letter-spacing:.09em;padding:4px 10px;cursor:pointer;border-radius:3px;transition:background .2s}
+.bau:hover{background:rgba(60,25,5,.2)}
+.ain{display:none}
+.afn{font-family:'Do Hyeon',sans-serif;font-size:.6rem;color:rgba(60,25,5,.42);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bvd{display:none;background:none;border:1px solid rgba(139,26,26,.26);color:rgba(139,26,26,.58);font-family:'Do Hyeon',sans-serif;font-size:.58rem;padding:3px 8px;cursor:pointer;border-radius:2px;transition:background .2s}
+.bvd:hover{background:rgba(139,26,26,.1)}
+
+/* 음성 플레이어 */
+.vp{display:none;align-items:center;gap:8px;background:rgba(60,25,5,.1);border-radius:3px;padding:7px 10px;margin-bottom:6px}
+.vp.show{display:flex}
+.bpl{width:28px;height:28px;border-radius:50%;background:rgba(60,25,5,.3);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.bpl:hover{background:rgba(60,25,5,.5)}
+.bpl svg{width:11px;fill:rgba(255,240,210,.9)}
+.pt{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
+.pl{font-family:'Do Hyeon',sans-serif;font-size:.58rem;color:rgba(60,25,5,.42);letter-spacing:.07em}
+.pb{width:100%;height:3px;background:rgba(60,25,5,.18);border-radius:2px;cursor:pointer}
+.pf2{height:100%;background:rgba(60,25,5,.45);border-radius:2px;width:0%;transition:width .1s linear;pointer-events:none}
+.ptm{font-family:'Do Hyeon',sans-serif;font-size:.56rem;color:rgba(60,25,5,.35)}
+
+/* 영상 URL 입력 (관리자) */
+.vvur{display:none;align-items:center;gap:7px;flex-wrap:wrap;margin-top:4px}
+.admin-active .vvur{display:flex}
+.vurl-input{flex:1;min-width:0;border:1px dashed rgba(60,25,5,.26);background:rgba(60,25,5,.07);border-radius:3px;font-family:'Do Hyeon',sans-serif;font-size:.62rem;color:rgba(60,25,5,.7);padding:4px 8px;outline:none;transition:border-color .2s}
+.vurl-input:focus{border-color:rgba(60,25,5,.5)}
+.vurl-input::placeholder{color:rgba(60,25,5,.3)}
+.bvsave{background:rgba(60,25,5,.22);color:rgba(60,25,5,.65);border:none;font-family:'Do Hyeon',sans-serif;font-size:.6rem;padding:4px 10px;cursor:pointer;border-radius:3px;transition:background .2s;flex-shrink:0}
+.bvsave:hover{background:rgba(60,25,5,.35)}
+.bvvd{display:none;background:none;border:1px solid rgba(139,26,26,.26);color:rgba(139,26,26,.58);font-family:'Do Hyeon',sans-serif;font-size:.58rem;padding:3px 8px;cursor:pointer;border-radius:2px;transition:background .2s;flex-shrink:0}
+.bvvd:hover{background:rgba(139,26,60,.1)}
+
+/* 편집 */
+.eh{display:none;position:absolute;bottom:8px;right:10px;font-family:'Do Hyeon',sans-serif;font-size:.58rem;color:rgba(60,25,5,.28);letter-spacing:.1em;pointer-events:none;z-index:3}
+.admin-active .np{cursor:pointer}
+.admin-active .np:hover{filter:brightness(1.04)}
+.admin-active .eh{display:block}
+.eo{display:none;position:absolute;inset:0;background:rgba(238,212,168,.96);z-index:30;padding:50px 24px 16px;flex-direction:column;gap:10px;border-radius:4px}
+.eo.open{display:flex}
+.elb{font-family:'Do Hyeon',sans-serif;font-size:.67rem;letter-spacing:.14em;color:rgba(60,25,5,.52)}
+.ebody{font-family:'Nanum Pen Script',cursive;font-size:1.2rem;border:none;border-bottom:1.5px solid rgba(60,25,5,.2);background:transparent;color:#3a1f05;outline:none;resize:none;line-height:1.8;flex:1;min-height:70px}
+.ea{display:flex;gap:8px;justify-content:flex-end}
+.bsv,.bcn{font-family:'Do Hyeon',sans-serif;font-size:.72rem;letter-spacing:.1em;padding:6px 18px;border:none;cursor:pointer;border-radius:2px;transition:opacity .2s}
+.bsv{background:rgba(60,25,5,.65);color:#fff}
+.bcn{background:rgba(60,25,5,.12);color:rgba(60,25,5,.7)}
+.bsv:hover,.bcn:hover{opacity:.75}
+
+/* ══════════════════════════════
+   모바일 레이아웃
+══════════════════════════════ */
+body.is-mobile .cw{
+  flex-direction:column;
+  width:min(420px,92vw);
+  height:min(680px,88vh);
+  gap:0;
+}
+body.is-mobile .ps{width:100%;height:38%;flex-shrink:0}
+body.is-mobile .pf{border-radius:6px 6px 0 0;box-shadow:none;border-bottom:3px solid rgba(0,0,0,.15)}
+body.is-mobile .ns{width:100%;height:62%;margin-left:0;flex-shrink:0}
+body.is-mobile .np{border-radius:0 0 6px 6px;height:100%;padding:36px 20px 16px}
+body.is-mobile .np::before{top:-10px;width:70px;height:24px}
+body.is-mobile .nh{top:10px;gap:10px}
+body.is-mobile .nh span{width:8px;height:8px}
+body.is-mobile .nl::after{top:48px}
+body.is-mobile .nb{font-size:clamp(.95rem,3.5vw,1.2rem);line-height:1.85}
+body.is-mobile .flower-bg{width:min(180px,40vw);opacity:.15}
+body.is-mobile .deco-letter{width:38px;top:10px;left:10px}
+body.is-mobile .deco-env{width:48px;bottom:10px;left:8px}
+body.is-mobile .cw{box-shadow:0 12px 50px rgba(0,0,0,.4)}
+body.is-mobile .nv{margin-top:5px}
+body.is-mobile .vur{gap:5px}
+body.is-mobile .bau{font-size:.6rem;padding:4px 8px}
+body.is-mobile .vurl-input{font-size:.58rem}
+body.is-mobile .nfr{margin-bottom:6px}
+body.is-mobile .nf{font-size:.75rem}
+
+/* 모바일 히어로 */
+body.is-mobile .hb{font-size:.7rem;letter-spacing:.2em;padding:5px 14px;margin-bottom:22px}
+body.is-mobile .sh{font-size:.72rem}
+
+/* ══ 영상 모달 ══ */
+.video-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:16px}
+.video-modal.open{display:flex}
+.video-modal iframe,.video-modal video{width:min(860px,92vw);height:min(480px,52vw,55vh);border-radius:6px;border:none;background:#000;box-shadow:0 20px 80px rgba(0,0,0,.7)}
+body.is-mobile .video-modal iframe,body.is-mobile .video-modal video{width:94vw;height:53vw;border-radius:4px}
+.vm-name{font-family:'Do Hyeon',sans-serif;font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.18em}
+.vm-close{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-family:'Do Hyeon',sans-serif;font-size:.78rem;letter-spacing:.18em;padding:8px 26px;cursor:pointer;border-radius:3px;transition:background .2s}
+.vm-close:hover{background:rgba(255,255,255,.2)}
+
+/* ══ ADD PAGE ══ */
+.apage{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.noadmin-msg{display:flex;flex-direction:column;align-items:center;gap:10px;color:rgba(255,255,255,.2);font-family:'Do Hyeon',sans-serif;font-size:.82rem;letter-spacing:.2em}
+.admin-active .noadmin-msg{display:none}
+.api{display:none;flex-direction:column;align-items:center;gap:14px}
+.admin-active .api{display:flex}
+.bas{padding:16px 44px;background:transparent;border:1.5px dashed rgba(255,255,255,.25);color:rgba(255,255,255,.42);font-family:'Do Hyeon',sans-serif;font-size:.88rem;letter-spacing:.22em;cursor:pointer;border-radius:4px;transition:border-color .2s,color .2s,background .2s}
+.bas:hover{border-color:rgba(255,255,255,.48);color:rgba(255,255,255,.68);background:rgba(255,255,255,.05)}
+
+/* ══ FOOTER ══ */
+.fpage{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;background:#0d0903;flex-direction:column;gap:14px}
+.ftitle{font-family:'Nanum Pen Script',cursive;font-size:clamp(1.8rem,5vw,3.4rem);color:var(--gold);opacity:.8}
+.fsub{font-family:'Do Hyeon',sans-serif;font-size:.76rem;letter-spacing:.28em;color:rgba(201,168,76,.28)}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:72px;right:20px;background:rgba(26,18,9,.9);color:var(--gold);font-family:'Do Hyeon',sans-serif;font-size:.7rem;letter-spacing:.14em;padding:7px 15px;border-radius:2px;z-index:800;opacity:0;transition:opacity .3s;pointer-events:none;border:1px solid rgba(201,168,76,.18)}
+.toast.show{opacity:1}
+
+/* ══ ADMIN BTN ══ */
+.ab{position:fixed;bottom:22px;right:22px;width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(201,168,76,.3);background:rgba(26,18,9,.85);backdrop-filter:blur(6px);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:900;transition:border-color .3s,transform .2s}
+.ab:hover{border-color:var(--gold);transform:scale(1.1)}
+.ab svg{width:15px;opacity:.5;transition:opacity .3s}
+.ab:hover svg{opacity:1}
+.admin-active .ab{border-color:var(--deep-red);background:rgba(139,26,26,.25)}
+.admin-active .ab svg{opacity:1}
+
+/* ══ ADMIN BADGE ══ */
+.abg{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-70px);background:var(--deep-red);color:#fff;font-family:'Do Hyeon',sans-serif;font-size:.7rem;letter-spacing:.14em;padding:7px 24px;z-index:999;box-shadow:0 4px 20px rgba(139,26,26,.5);transition:transform .4s cubic-bezier(.22,.68,0,.99);pointer-events:none;white-space:nowrap;border-radius:2px}
+.abg.show{transform:translateX(-50%) translateY(0)}
+body.is-mobile .abg{font-size:.62rem;padding:6px 16px}
+
+/* ══ MODALS ══ */
+.mo{display:none;position:fixed;inset:0;background:rgba(10,7,3,.78);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.mo.open{display:flex}
+.mb{background:var(--parchment);padding:38px 34px;width:min(360px,100%);text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.6);border-top:3px solid var(--gold);animation:pop .32s cubic-bezier(.22,.68,0,.99) both;border-radius:2px}
+@keyframes pop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.mt2{font-size:1.02rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+.ms2{font-size:.78rem;color:#8a7055;margin-bottom:22px;letter-spacing:.05em;font-family:'Do Hyeon',sans-serif}
+.mi{width:100%;padding:11px 15px;border:1.5px solid #e8d5b5;border-radius:2px;font-family:'Nanum Myeongjo',serif;font-size:1.05rem;text-align:center;background:var(--cream);outline:none;color:var(--ink);margin-bottom:16px;transition:border-color .2s}
+.mi:focus{border-color:var(--gold)}
+#pwInput{letter-spacing:.28em}
+.msb{width:100%;padding:11px;background:var(--ink);color:var(--gold);border:none;font-family:'Do Hyeon',sans-serif;font-size:.88rem;letter-spacing:.18em;cursor:pointer;transition:background .2s;border-radius:2px}
+.msb:hover{background:var(--deep-red)}
+.me{color:var(--deep-red);font-size:.75rem;margin-top:8px;min-height:16px;font-family:'Do Hyeon',sans-serif;letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<div id="ls">
+  <div class="lt">사범님께 드리는 편지</div>
+  <div class="ld"><span></span><span></span><span></span></div>
+</div>
+
+<section class="hero">
+  <div class="dc a"></div><div class="dc b"></div>
+  <div class="hi">
+    <div class="hb">태권도 도장 · 감사의 마음</div>
+    <h1 class="ht">조윤수<br>사범님께</h1>
+    <p class="hs">함께해 주셔서 정말 감사했습니다</p>
+    <div class="sh">
+      <span>제자들의 편지 보기</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div id="pagesContainer"></div>
+
+<div class="apage" id="addPage">
+  <div class="noadmin-msg"><span>❤</span><span>사범님을 사랑합니다</span></div>
+  <div class="api"><button class="bas" id="btnAddStudent">＋ 제자 추가하기</button></div>
+</div>
+
+<div class="fpage">
+  <div class="ftitle">사범님, 항상 건강하세요 ♡</div>
+  <div class="fsub">제자 일동</div>
+</div>
+
+<!-- 영상 모달 -->
+<div class="video-modal" id="videoModal">
+  <div class="vm-name" id="vmName"></div>
+  <div id="vmInner"></div>
+  <button class="vm-close" id="vmClose">✕ 닫기</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<button class="ab" id="adminBtn">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
+    <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+  </svg>
+</button>
+<div class="abg" id="adminBadge">✎ 관리자 모드 · 카드 클릭→편지편집 / 사진·음성·영상 추가 가능</div>
+
+<div class="mo" id="pwModal">
+  <div class="mb">
+    <div class="mt2">관리자 확인</div>
+    <div class="ms2">비밀번호를 입력하세요</div>
+    <input class="mi" type="password" id="pwInput" placeholder="••••" maxlength="20">
+    <button class="msb" id="pwSubmit">확인</button>
+    <div class="me" id="pwErr"></div>
+  </div>
+</div>
+<div class="mo" id="renameModal">
+  <div class="mb">
+    <div class="mt2">이름 변경</div>
+    <div class="ms2">새로운 이름을 입력하세요</div>
+    <input class="mi" type="text" id="renameInput" placeholder="이름" maxlength="20">
+    <button class="msb" id="renameSubmit">변경하기</button>
+    <div class="me" id="renameErr"></div>
+  </div>
+</div>
+<div class="mo" id="addModal">
+  <div class="mb">
+    <div class="mt2">제자 추가</div>
+    <div class="ms2">추가할 제자의 이름을 입력하세요</div>
+    <input class="mi" type="text" id="addInput" placeholder="이름" maxlength="20">
+    <button class="msb" id="addSubmit">추가하기</button>
+    <div class="me" id="addErr"></div>
+  </div>
+</div>
+
+<script>
+// ★ Railway URL 여기 넣어줘 ★
+const API = 'YOUR_RAILWAY_URL';
+
+// ── 모바일 감지 ──
+const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+if (isMobile) document.body.classList.add('is-mobile');
+
+// ── API ──
+async function apiLoad(){
+  const r = await fetch(`${API}/api/letters`);
+  if(!r.ok) throw new Error();
+  return r.json();
+}
+async function apiSave(d){
+  showToast('저장 중...');
+  try {
+    const r = await fetch(`${API}/api/letters`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+    if(!r.ok) throw new Error();
+    showToast('저장 완료 ✓');
+  } catch(e) {
+    showToast('저장 실패 ✗');
+  }
+}
+function showToast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// ── STATE ──
+const PW='love';
+let letters=[];
+let adminMode=false;
+let renameTarget=-1;
+const audioEls={};
+
+// ── 유틸 ──
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// YouTube URL → embed URL 변환
+function toEmbedUrl(url){
+  if(!url) return null;
+  // 이미 embed URL이면 그대로
+  if(url.includes('youtube.com/embed/')) return url;
+  // youtu.be/xxxx
+  let m = url.match(/youtu\.be\/([^?&]+)/);
+  if(m) return `https://www.youtube.com/embed/${m[1]}?autoplay=1`;
+  // youtube.com/watch?v=xxxx
+  m = url.match(/[?&]v=([^?&]+)/);
+  if(m) return `https://www.youtube.com/embed/${m[1]}?autoplay=1`;
+  // youtube.com/shorts/xxxx
+  m = url.match(/shorts\/([^?&]+)/);
+  if(m) return `https://www.youtube.com/embed/${m[1]}?autoplay=1`;
+  // 직접 링크 (mp4 등)
+  return url;
+}
+
+function isDirectVideo(url){
+  return url && !url.includes('youtube') && !url.includes('youtu.be');
+}
+
+// ── RENDER ──
+function render(){
+  const con = document.getElementById('pagesContainer');
+  con.innerHTML = '';
+  letters.forEach((l,i) => {
+    const page = document.createElement('div');
+    page.className = 'lpage';
+    const isEmpty  = !l.body.trim();
+    const hasPhoto = !!l.photo;
+    const hasAudio = !!l.audio;
+    const hasVideo = !!l.video;
+
+    page.innerHTML = `
+      <div class="page-no">No.${String(i+1).padStart(2,'0')}</div>
+
+      <!-- 장식 -->
+      <svg class="deco-letter" viewBox="0 0 60 80" fill="none">
+        <rect x="2" y="2" width="56" height="76" rx="3" fill="rgba(245,234,216,.45)" stroke="rgba(200,170,100,.28)" stroke-width="1.5"/>
+        <line x1="10" y1="18" x2="50" y2="18" stroke="rgba(150,120,70,.28)" stroke-width="1.2"/>
+        <line x1="10" y1="26" x2="50" y2="26" stroke="rgba(150,120,70,.28)" stroke-width="1.2"/>
+        <line x1="10" y1="34" x2="44" y2="34" stroke="rgba(150,120,70,.25)" stroke-width="1.2"/>
+        <line x1="10" y1="42" x2="38" y2="42" stroke="rgba(150,120,70,.22)" stroke-width="1.2"/>
+      </svg>
+      <svg class="deco-env" viewBox="0 0 80 60" fill="none">
+        <rect x="2" y="2" width="76" height="56" rx="4" fill="rgba(255,195,175,.5)" stroke="rgba(220,145,125,.3)" stroke-width="1.5"/>
+        <path d="M2 2 L40 34 L78 2" stroke="rgba(220,145,125,.38)" stroke-width="1.5" fill="none"/>
+        <circle cx="20" cy="40" r="4" fill="rgba(220,55,55,.28)"/>
+        <circle cx="34" cy="46" r="3" fill="rgba(220,55,55,.22)"/>
+        <circle cx="28" cy="36" r="2.5" fill="rgba(220,55,55,.18)"/>
+      </svg>
+
+      <!-- 꽃 배경 -->
+      <svg class="flower-bg" viewBox="0 0 200 280" fill="none">
+        <ellipse cx="100" cy="245" rx="7" ry="38" fill="#3d6e30" opacity=".55"/>
+        <ellipse cx="100" cy="245" rx="3.5" ry="35" transform="rotate(22 100 245)" fill="#3d6e30" opacity=".38"/>
+        <ellipse cx="100" cy="245" rx="3.5" ry="32" transform="rotate(-22 100 245)" fill="#3d6e30" opacity=".38"/>
+        <ellipse cx="58" cy="78" rx="36" ry="48" fill="#a84888" opacity=".52"/>
+        <ellipse cx="78" cy="58" rx="28" ry="46" fill="#be5898" opacity=".46"/>
+        <ellipse cx="138" cy="88" rx="33" ry="44" fill="#882065" opacity=".42"/>
+        <ellipse cx="118" cy="68" rx="26" ry="42" fill="#cc68a8" opacity=".38"/>
+        <ellipse cx="100" cy="48" rx="20" ry="36" fill="#e078b8" opacity=".33"/>
+        <circle cx="100" cy="118" r="17" fill="#eece58" opacity=".38"/>
+      </svg>
+
+      <!-- 카드 -->
+      <div class="cw">
+        <!-- 사진 -->
+        <div class="ps">
+          <div class="pf${hasPhoto?' hp':''}" id="pf-${i}">
+            <img id="pi-${i}" class="${hasPhoto?'hp':''}" src="${hasPhoto?l.photo:''}" alt="">
+            <div class="ppi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <circle cx="8.5" cy="10.5" r="1.5"/>
+                <path d="M21 15l-5-5L5 19"/>
+              </svg>
+              <span>사진 없음</span>
+            </div>
+            <button class="bpu" id="bpu-${i}">📷 사진 추가</button>
+            <button class="bpd" id="bpd-${i}">✕</button>
+            <input class="pi" type="file" accept="image/*" id="piIn-${i}">
+          </div>
+        </div>
+
+        <!-- 노트 -->
+        <div class="ns">
+          <div class="np" id="np-${i}">
+            <div class="nh">${Array(6).fill('<span></span>').join('')}</div>
+            <div class="nl"></div>
+
+            <div class="nfr">
+              <span class="nf">${esc(l.from)}</span>
+              <button class="brn" data-idx="${i}">✏ 이름</button>
+            </div>
+
+            <div class="nb${isEmpty?' empty':''}">
+              ${isEmpty?'':esc(l.body)}
+            </div>
+
+            <!-- 영상 힌트 (일반 방문자, 영상 있을 때) -->
+            <div class="video-hint" id="vh-${i}" style="display:${hasVideo?'flex':'none'}">
+              <div class="pi2"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+              <span>🎬 영상편지 보기</span>
+            </div>
+
+            <div class="nv">
+              <!-- 음성 업로드 (관리자) -->
+              <div class="vur">
+                <button class="bau" id="bau-${i}">🎵 음성파일</button>
+                <span class="afn" id="afn-${i}">${hasAudio?'✓ 업로드됨':''}</span>
+                <button class="bvd" id="bvd-${i}" style="display:${hasAudio?'inline-block':'none'}">🗑 삭제</button>
+                <input class="ain" type="file" accept="audio/mp3,audio/mpeg,audio/m4a,audio/aac,audio/wav,audio/ogg,audio/*" id="aiIn-${i}">
+              </div>
+
+              <!-- 음성 플레이어 -->
+              <div class="vp${hasAudio?' show':''}" id="vp-${i}">
+                <button class="bpl" id="bpl-${i}">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="pt">
+                  <div class="pl">🎙 ${esc(l.from)}의 음성편지</div>
+                  <div class="pb" id="pb-${i}"><div class="pf2" id="pbf-${i}"></div></div>
+                  <div class="ptm" id="ptm-${i}">0:00 / 0:00</div>
+                </div>
+              </div>
+
+              <!-- 영상 URL 입력 (관리자) -->
+              <div class="vvur">
+                <input class="vurl-input" type="text" id="vurl-${i}"
+                  placeholder="YouTube URL 또는 영상 링크 붙여넣기"
+                  value="${esc(l.video||'')}">
+                <button class="bvsave" id="bvsave-${i}">저장</button>
+                <button class="bvvd" id="bvvd-${i}" style="display:${hasVideo?'inline-block':'none'}">🗑 삭제</button>
+              </div>
+            </div>
+
+            <div class="eh">클릭→편집</div>
+
+            <div class="eo" id="eo-${i}">
+              <div class="elb">편지 내용 편집 — ${esc(l.from)}</div>
+              <textarea class="ebody" rows="5" placeholder="편지 내용을 써주세요...">${esc(l.body)}</textarea>
+              <div class="ea">
+                <button class="bcn">취소</button>
+                <button class="bsv">저장</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('pagesContainer').appendChild(page);
+    wireCard(page, i);
+  });
+
+  document.body.classList.toggle('admin-active', adminMode);
+}
+
+// ── WIRE ──
+function wireCard(page, i){
+  const np = page.querySelector(`#np-${i}`);
+
+  // 노트 클릭
+  np.addEventListener('click', e => {
+    if(e.target.closest('.eo,.brn,.nv,.bpu,.bpd,.pi')) return;
+    if(adminMode){
+      np.querySelector('.eo').classList.add('open');
+      np.querySelector('.ebody').focus();
+    } else if(letters[i].video){
+      openVideo(i);
+    }
+  });
+
+  // 영상 힌트
+  page.querySelector(`#vh-${i}`).addEventListener('click', e => {
+    e.stopPropagation();
+    if(letters[i].video) openVideo(i);
+  });
+
+  // 편집 저장/취소
+  np.querySelector('.bsv').addEventListener('click', async e => {
+    e.stopPropagation();
+    letters[i].body = np.querySelector('.ebody').value.trim();
+    np.querySelector('.eo').classList.remove('open');
+    render();
+    await apiSave(letters);
+  });
+  np.querySelector('.bcn').addEventListener('click', e => {
+    e.stopPropagation();
+    np.querySelector('.eo').classList.remove('open');
+  });
+
+  // 이름 변경
+  np.querySelector('.brn').addEventListener('click', e => {
+    e.stopPropagation();
+    renameTarget = i;
+    document.getElementById('renameInput').value = letters[i].from;
+    document.getElementById('renameErr').textContent = '';
+    openModal('renameModal');
+    setTimeout(()=>document.getElementById('renameInput').select(),120);
+  });
+
+  // ── 사진 ──
+  const bpu   = page.querySelector(`#bpu-${i}`);
+  const bpd   = page.querySelector(`#bpd-${i}`);
+  const piIn  = page.querySelector(`#piIn-${i}`);
+  const pf    = page.querySelector(`#pf-${i}`);
+  const pimg  = page.querySelector(`#pi-${i}`);
+
+  bpu.addEventListener('click', e => { e.stopPropagation(); piIn.click(); });
+  piIn.addEventListener('change', e => {
+    const f = e.target.files[0]; if(!f) return;
+    if(f.size > 5*1024*1024){ showToast('5MB 이하 사진만 가능해요!'); piIn.value=''; return; }
+    const reader = new FileReader();
+    reader.onload = async ev => {
+      letters[i].photo = ev.target.result;
+      pimg.src = ev.target.result;
+      pimg.classList.add('hp'); pf.classList.add('hp');
+      await apiSave(letters);
+    };
+    reader.readAsDataURL(f); piIn.value = '';
+  });
+  bpd.addEventListener('click', async e => {
+    e.stopPropagation();
+    letters[i].photo = '';
+    pimg.src = ''; pimg.classList.remove('hp'); pf.classList.remove('hp');
+    await apiSave(letters);
+  });
+
+  // ── 음성 ──
+  const bau  = page.querySelector(`#bau-${i}`);
+  const aiIn = page.querySelector(`#aiIn-${i}`);
+  const bvd  = page.querySelector(`#bvd-${i}`);
+  const afn  = page.querySelector(`#afn-${i}`);
+
+  bau.addEventListener('click', e => { e.stopPropagation(); aiIn.click(); });
+
+  aiIn.addEventListener('change', e => {
+    const f = e.target.files[0]; if(!f) return;
+    const maxMB = 50;
+    if(f.size > maxMB * 1024 * 1024){
+      showToast(`${maxMB}MB 이하 파일만 가능해요!`); aiIn.value = ''; return;
+    }
+    showToast('음성 읽는 중...');
+    const reader = new FileReader();
+    reader.onload = async ev => {
+      letters[i].audio = ev.target.result;
+      afn.textContent = `✓ ${f.name}`;
+      bvd.style.display = 'inline-block';
+      await apiSave(letters);
+      wireAudio(page, i);
+      page.querySelector(`#vp-${i}`).classList.add('show');
+    };
+    reader.onerror = () => showToast('파일 읽기 실패');
+    reader.readAsDataURL(f);
+    aiIn.value = '';
+  });
+
+  bvd.addEventListener('click', async e => {
+    e.stopPropagation();
+    if(!confirm('음성을 삭제할까요?')) return;
+    letters[i].audio = '';
+    afn.textContent = '';
+    bvd.style.display = 'none';
+    page.querySelector(`#vp-${i}`).classList.remove('show');
+    if(audioEls[i]){ audioEls[i].pause(); audioEls[i].remove(); delete audioEls[i]; }
+    await apiSave(letters);
+  });
+
+  // ── 영상 URL ──
+  const vurlInput = page.querySelector(`#vurl-${i}`);
+  const bvsave    = page.querySelector(`#bvsave-${i}`);
+  const bvvd      = page.querySelector(`#bvvd-${i}`);
+  const vh        = page.querySelector(`#vh-${i}`);
+
+  // URL 입력은 자체 stopPropagation
+  vurlInput.addEventListener('click', e => e.stopPropagation());
+  vurlInput.addEventListener('keydown', e => { if(e.key==='Enter') bvsave.click(); e.stopPropagation(); });
+
+  bvsave.addEventListener('click', async e => {
+    e.stopPropagation();
+    const url = vurlInput.value.trim();
+    letters[i].video = url;
+    vh.style.display = url ? 'flex' : 'none';
+    bvvd.style.display = url ? 'inline-block' : 'none';
+    await apiSave(letters);
+    showToast(url ? '영상 URL 저장됨 ✓' : 'URL 삭제됨');
+  });
+
+  bvvd.addEventListener('click', async e => {
+    e.stopPropagation();
+    letters[i].video = '';
+    vurlInput.value = '';
+    vh.style.display = 'none';
+    bvvd.style.display = 'none';
+    await apiSave(letters);
+  });
+
+  wireAudio(page, i);
+}
+
+// ── 오디오 플레이어 ──
+function wireAudio(page, i){
+  if(!letters[i].audio) return;
+  if(audioEls[i]){ audioEls[i].pause(); audioEls[i].remove(); }
+
+  const audio = new Audio();
+  audio.preload = 'metadata';
+  audio.src = letters[i].audio;
+  document.body.appendChild(audio);
+  audioEls[i] = audio;
+
+  const pbf  = page.querySelector(`#pbf-${i}`);
+  const pb   = page.querySelector(`#pb-${i}`);
+  const ptm  = page.querySelector(`#ptm-${i}`);
+  const bpl  = page.querySelector(`#bpl-${i}`);
+
+  function fmt(s){ if(!isFinite(s)||isNaN(s)) return '0:00'; return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`; }
+
+  audio.addEventListener('timeupdate', () => {
+    const p = audio.duration ? (audio.currentTime/audio.duration)*100 : 0;
+    pbf.style.width = p + '%';
+    ptm.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+  });
+  audio.addEventListener('ended', () => {
+    bpl.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    pbf.style.width = '0%';
+  });
+  audio.addEventListener('error', () => showToast('음성 재생 오류'));
+
+  const nb = bpl.cloneNode(true);
+  bpl.parentNode.replaceChild(nb, bpl);
+
+  nb.addEventListener('click', e => {
+    e.stopPropagation();
+    if(audio.paused){
+      // 다른 오디오 정지
+      Object.values(audioEls).forEach(a => { if(a!==audio){ a.pause(); }});
+      document.querySelectorAll('.bpl').forEach(b => {
+        b.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+      });
+      audio.play().catch(()=>showToast('재생 실패 - 파일을 확인해주세요'));
+      nb.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+    } else {
+      audio.pause();
+      nb.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    }
+  });
+
+  pb.addEventListener('click', e => {
+    e.stopPropagation();
+    const r = pb.getBoundingClientRect();
+    if(audio.duration) audio.currentTime = ((e.clientX-r.left)/r.width)*audio.duration;
+  });
+}
+
+// ── 영상 모달 ──
+function openVideo(i){
+  const modal  = document.getElementById('videoModal');
+  const inner  = document.getElementById('vmInner');
+  const name   = document.getElementById('vmName');
+  const url    = letters[i].video;
+  const embed  = toEmbedUrl(url);
+
+  name.textContent = `🎬 ${letters[i].from}의 영상편지`;
+  inner.innerHTML = '';
+
+  if(isDirectVideo(url)){
+    const v = document.createElement('video');
+    v.src = url; v.controls = true; v.autoplay = true; v.playsInline = true;
+    inner.appendChild(v);
+  } else {
+    const ifr = document.createElement('iframe');
+    ifr.src = embed;
+    ifr.allow = 'autoplay; fullscreen; picture-in-picture';
+    ifr.allowFullscreen = true;
+    inner.appendChild(ifr);
+  }
+  modal.classList.add('open');
+}
+
+document.getElementById('vmClose').addEventListener('click', closeVideoModal);
+document.getElementById('videoModal').addEventListener('click', e => {
+  if(e.target === document.getElementById('videoModal')) closeVideoModal();
+});
+function closeVideoModal(){
+  document.getElementById('videoModal').classList.remove('open');
+  document.getElementById('vmInner').innerHTML = '';
+}
+
+// ── 관리자 ──
+const badge = document.getElementById('adminBadge');
+document.getElementById('adminBtn').addEventListener('click', () => {
+  if(adminMode){ adminMode=false; badge.classList.remove('show'); render(); return; }
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwErr').textContent = '';
+  openModal('pwModal');
+  setTimeout(()=>document.getElementById('pwInput').focus(),120);
+});
+document.getElementById('pwSubmit').addEventListener('click', checkPw);
+document.getElementById('pwInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPw(); });
+function checkPw(){
+  if(document.getElementById('pwInput').value === PW){
+    closeModal('pwModal'); adminMode=true; badge.classList.add('show'); render();
+  } else {
+    document.getElementById('pwErr').textContent = '비밀번호가 틀렸어요 💛';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+document.getElementById('renameSubmit').addEventListener('click', doRename);
+document.getElementById('renameInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doRename(); });
+async function doRename(){
+  const v = document.getElementById('renameInput').value.trim();
+  if(!v){ document.getElementById('renameErr').textContent='이름을 입력해주세요'; return; }
+  letters[renameTarget].from = v;
+  closeModal('renameModal'); render(); await apiSave(letters);
+}
+
+document.getElementById('btnAddStudent').addEventListener('click', () => {
+  document.getElementById('addInput').value = '';
+  document.getElementById('addErr').textContent = '';
+  openModal('addModal');
+  setTimeout(()=>document.getElementById('addInput').focus(),120);
+});
+document.getElementById('addSubmit').addEventListener('click', doAdd);
+document.getElementById('addInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doAdd(); });
+async function doAdd(){
+  const v = document.getElementById('addInput').value.trim();
+  if(!v){ document.getElementById('addErr').textContent='이름을 입력해주세요'; return; }
+  letters.push({from:v, body:'', photo:'', audio:'', video:''});
+  closeModal('addModal'); render(); await apiSave(letters);
+  setTimeout(()=>{
+    const pages = document.querySelectorAll('.lpage');
+    pages[pages.length-1]?.scrollIntoView({behavior:'smooth'});
+  },350);
+}
+
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.mo').forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('open'); });
+});
+
+// ── INIT ──
+(async()=>{
+  try { letters = await apiLoad(); }
+  catch(e){ letters = Array.from({length:13},(_,i)=>({from:`제자 ${i+1}`,body:'',photo:'',audio:'',video:''})); }
+  letters = letters.map(l=>({video:'',audio:'',photo:'',...l}));
+  render();
+  const ls = document.getElementById('ls');
+  ls.classList.add('hide');
+  setTimeout(()=>ls.remove(), 600);
+})();
+</script>
+</body>
+</html>

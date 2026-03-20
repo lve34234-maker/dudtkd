@@ -413,7 +413,7 @@ body.mob #ePanel.on{transform:translateY(0)}
 <div class="mo" id="moAdd"><div class="mbox"><div class="mt">제자 추가</div><div class="ms">이름을 입력하세요</div><input class="mi" type="text" id="addIn" placeholder="이름" maxlength="20"><button class="msub" id="addOk">추가하기</button><div class="merr" id="addErr"></div></div></div>
 
 <script>
-const API = 'YOUR_RAILWAY_URL';
+const API = 'https://dudtkd-server-production.up.railway.app';
 const PW  = 'love';
 const isMob = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||window.innerWidth<768;
 if(isMob) document.body.classList.add('mob');

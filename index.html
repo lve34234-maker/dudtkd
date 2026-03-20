@@ -73,8 +73,8 @@ body{font-family:'Nanum Myeongjo',serif;background:var(--bg);height:100%}
 
 /* 노트 */
 .ns{width:54%;height:106%;position:relative;flex-shrink:0;margin-left:-22px;z-index:2}
-.np{width:100%;height:100%;background:var(--note);border-radius:4px;position:relative;box-shadow:8px 8px 0 rgba(0,0,0,.22),-2px -2px 14px rgba(0,0,0,.12);overflow:hidden;display:flex;flex-direction:column;padding:52px 28px 20px}
-.np::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-1.5deg);width:88px;height:28px;background:var(--tape);border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.12);z-index:10}
+.np{width:100%;height:100%;position:relative;border-radius:4px;overflow:visible}
+.np-front::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-1.5deg);width:88px;height:28px;background:var(--tape);border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.12);z-index:10}
 .nh{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:flex;gap:13px;z-index:11}
 .nh span{width:9px;height:9px;border-radius:50%;background:var(--bg);box-shadow:inset 0 1px 3px rgba(0,0,0,.35)}
 .nl{position:absolute;inset:0;pointer-events:none}
@@ -142,10 +142,58 @@ body{font-family:'Nanum Myeongjo',serif;background:var(--bg);height:100%}
 .bvvd{display:none;background:none;border:1px solid rgba(139,26,26,.26);color:rgba(139,26,26,.58);font-family:'Do Hyeon',sans-serif;font-size:.58rem;padding:3px 8px;cursor:pointer;border-radius:2px;transition:background .2s;flex-shrink:0}
 .bvvd:hover{background:rgba(139,26,60,.1)}
 
+/* ══ 플립 카드 ══ */
+.ns{perspective:1200px}
+.np-flipper{
+  width:100%;height:100%;position:relative;
+  transform-style:preserve-3d;
+  transition:transform .75s cubic-bezier(.4,0,.2,1);
+}
+.np-flipper.flipped{transform:rotateY(180deg)}
+.np-front,.np-back{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border-radius:4px;
+  overflow:hidden;
+}
+.np-front{
+  background:var(--note);
+  box-shadow:8px 8px 0 rgba(0,0,0,.22),-2px -2px 14px rgba(0,0,0,.12);
+  display:flex;flex-direction:column;padding:52px 28px 20px;
+}
+.np-back{
+  background:#111;
+  transform:rotateY(180deg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:12px;
+  cursor:default;
+}
+.np-back video,.np-back iframe{
+  width:100%;height:75%;border:none;border-radius:4px;background:#000;
+}
+.np-back-close{
+  font-family:'Do Hyeon',sans-serif;font-size:.72rem;letter-spacing:.18em;
+  color:rgba(255,255,255,.5);background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);padding:6px 22px;
+  cursor:pointer;border-radius:3px;transition:background .2s;flex-shrink:0;
+}
+.np-back-close:hover{background:rgba(255,255,255,.16)}
+.np-back-label{font-family:'Do Hyeon',sans-serif;font-size:.68rem;color:rgba(255,255,255,.3);letter-spacing:.15em}
+
+/* 영상 있을 때 앞면에 살짝 힌트 표시 */
+.flip-hint{
+  display:none;position:absolute;bottom:10px;right:12px;
+  font-family:'Do Hyeon',sans-serif;font-size:.6rem;
+  color:rgba(60,25,5,.32);letter-spacing:.1em;pointer-events:none;z-index:3;
+}
+.has-video-hint .flip-hint{display:block}
+
 /* 편집 */
 .eh{display:none;position:absolute;bottom:8px;right:10px;font-family:'Do Hyeon',sans-serif;font-size:.58rem;color:rgba(60,25,5,.28);letter-spacing:.1em;pointer-events:none;z-index:3}
-.admin-active .np{cursor:pointer}
-.admin-active .np:hover{filter:brightness(1.04)}
+.admin-active .np-front{cursor:pointer}
+.admin-active .np-front:hover{filter:brightness(1.04)}
 .admin-active .eh{display:block}
 .eo{display:none;position:absolute;inset:0;background:rgba(238,212,168,.96);z-index:30;padding:50px 24px 16px;flex-direction:column;gap:10px;border-radius:4px}
 .eo.open{display:flex}
@@ -279,12 +327,7 @@ body.is-mobile .abg{font-size:.62rem;padding:6px 16px}
   <div class="fsub">제자 일동</div>
 </div>
 
-<!-- 영상 모달 -->
-<div class="video-modal" id="videoModal">
-  <div class="vm-name" id="vmName"></div>
-  <div id="vmInner"></div>
-  <button class="vm-close" id="vmClose">✕ 닫기</button>
-</div>
+<!-- 영상 모달 제거됨 - 플립 카드 방식으로 교체 -->
 
 <div class="toast" id="toast"></div>
 
@@ -452,23 +495,24 @@ function render(){
         <!-- 노트 -->
         <div class="ns">
           <div class="np" id="np-${i}">
-            <div class="nh">${Array(6).fill('<span></span>').join('')}</div>
-            <div class="nl"></div>
+            <div class="np-flipper" id="flipper-${i}">
 
-            <div class="nfr">
-              <span class="nf">${esc(l.from)}</span>
-              <button class="brn" data-idx="${i}">✏ 이름</button>
-            </div>
+              <!-- 앞면 (편지) -->
+              <div class="np-front${hasVideo?' has-video-hint':''}" id="npfront-${i}">
+                <div class="nh">${Array(6).fill('<span></span>').join('')}</div>
+                <div class="nl"></div>
 
-            <div class="nb${isEmpty?' empty':''}">
-              ${isEmpty?'':esc(l.body)}
-            </div>
+                <div class="nfr">
+                  <span class="nf">${esc(l.from)}</span>
+                  <button class="brn" data-idx="${i}">✏ 이름</button>
+                </div>
 
-            <!-- 영상 힌트 (일반 방문자, 영상 있을 때) -->
-            <div class="video-hint" id="vh-${i}" style="display:${hasVideo?'flex':'none'}">
-              <div class="pi2"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-              <span>🎬 영상편지 보기</span>
-            </div>
+                <div class="nb${isEmpty?' empty':''}">
+                  ${isEmpty?'':esc(l.body)}
+                </div>
+
+                <!-- 영상 힌트 텍스트 (뒷면 암시) -->
+                <div class="flip-hint">🎬 눌러서 영상편지 보기</div>
 
             <div class="nv">
               <!-- 음성 업로드 (관리자) -->
@@ -514,19 +558,29 @@ function render(){
               </div>
             </div>
 
-            <div class="eh">클릭→편집</div>
+                <div class="eh">클릭→편집</div>
 
-            <div class="eo" id="eo-${i}">
+                <div class="eo" id="eo-${i}">
               <div class="elb">편지 내용 편집 — ${esc(l.from)}</div>
               <textarea class="ebody" rows="5" placeholder="편지 내용을 써주세요...">${esc(l.body)}</textarea>
               <div class="ea">
                 <button class="bcn">취소</button>
                 <button class="bsv">저장</button>
+                </div><!-- eo end -->
+
+              </div><!-- np-front end -->
+
+              <!-- 뒷면 (영상) -->
+              <div class="np-back" id="npback-${i}">
+                <div class="np-back-label" id="nblabel-${i}">🎬 ${esc(l.from)}의 영상편지</div>
+                <div id="nbvideo-${i}" style="width:100%;height:70%;display:flex;align-items:center;justify-content:center"></div>
+                <button class="np-back-close" id="nbclose-${i}">✕ 편지로 돌아가기</button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+            </div><!-- flipper end -->
+          </div><!-- np end -->
+        </div><!-- ns end -->
+      </div><!-- cw end -->
     `;
 
     document.getElementById('pagesContainer').appendChild(page);
@@ -541,20 +595,24 @@ function wireCard(page, i){
   const np = page.querySelector(`#np-${i}`);
 
   // 노트 클릭
+  const flipper = page.querySelector(`#flipper-${i}`);
+  const nbclose = page.querySelector(`#nbclose-${i}`);
+  const npfront = page.querySelector(`#npfront-${i}`);
+
   np.addEventListener('click', e => {
-    if(e.target.closest('.eo,.brn,.nv,.bpu,.bpd,.pi')) return;
+    if(e.target.closest('.eo,.brn,.nv,.bpu,.bpd,.pi,.np-back,.np-back-close')) return;
     if(adminMode){
       np.querySelector('.eo').classList.add('open');
       np.querySelector('.ebody').focus();
     } else if(letters[i].video){
-      openVideo(i);
+      flipToVideo(i, page);
     }
   });
 
-  // 영상 힌트
-  page.querySelector(`#vh-${i}`).addEventListener('click', e => {
+  // 뒷면 닫기
+  nbclose.addEventListener('click', e => {
     e.stopPropagation();
-    if(letters[i].video) openVideo(i);
+    flipBack(i, page);
   });
 
   // 편집 저장/취소
@@ -777,38 +835,36 @@ function wireAudio(page, i){
   });
 }
 
-// ── 영상 모달 ──
-function openVideo(i){
-  const modal  = document.getElementById('videoModal');
-  const inner  = document.getElementById('vmInner');
-  const name   = document.getElementById('vmName');
+// ── 플립 영상 ──
+function flipToVideo(i, page){
   const url    = letters[i].video;
   const embed  = toEmbedUrl(url);
+  const flipper = page.querySelector(`#flipper-${i}`);
+  const nbvideo = page.querySelector(`#nbvideo-${i}`);
 
-  name.textContent = `🎬 ${letters[i].from}의 영상편지`;
-  inner.innerHTML = '';
-
+  nbvideo.innerHTML = '';
   if(isDirectVideo(url)){
     const v = document.createElement('video');
     v.src = url; v.controls = true; v.autoplay = true; v.playsInline = true;
-    inner.appendChild(v);
+    v.style.cssText = 'width:100%;height:100%;border-radius:4px;background:#000';
+    nbvideo.appendChild(v);
   } else {
     const ifr = document.createElement('iframe');
     ifr.src = embed;
     ifr.allow = 'autoplay; fullscreen; picture-in-picture';
     ifr.allowFullscreen = true;
-    inner.appendChild(ifr);
+    ifr.style.cssText = 'width:100%;height:100%;border:none;border-radius:4px';
+    nbvideo.appendChild(ifr);
   }
-  modal.classList.add('open');
+  flipper.classList.add('flipped');
 }
 
-document.getElementById('vmClose').addEventListener('click', closeVideoModal);
-document.getElementById('videoModal').addEventListener('click', e => {
-  if(e.target === document.getElementById('videoModal')) closeVideoModal();
-});
-function closeVideoModal(){
-  document.getElementById('videoModal').classList.remove('open');
-  document.getElementById('vmInner').innerHTML = '';
+function flipBack(i, page){
+  const flipper = page.querySelector(`#flipper-${i}`);
+  const nbvideo = page.querySelector(`#nbvideo-${i}`);
+  flipper.classList.remove('flipped');
+  // 뒤집히는 동안 잠깐 후 영상 제거 (소리 끊기 방지)
+  setTimeout(()=>{ nbvideo.innerHTML = ''; }, 800);
 }
 
 // ── 관리자 ──
